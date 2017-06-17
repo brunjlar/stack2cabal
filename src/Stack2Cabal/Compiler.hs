@@ -1,12 +1,19 @@
 module Stack2Cabal.Compiler
     ( getCompiler
+    , writeCompilerBlock
     ) where
 
-import Data.Text        (Text, pack)
+import Data.Text        (Text, pack, unpack)
 import System.Directory (withCurrentDirectory)
 import System.Process   (readProcess)
 
-getCompiler :: FilePath -> IO Text
+newtype Compiler = Compiler Text
+    deriving Show
+
+getCompiler :: FilePath -> IO Compiler
 getCompiler dir =
     withCurrentDirectory dir $ do
-        (pack . head . lines) <$> readProcess "stack" ["path", "--compiler-exe"] ""
+        (Compiler . pack . head . lines) <$> readProcess "stack" ["path", "--compiler-exe"] ""
+
+writeCompilerBlock :: Compiler -> [String]
+writeCompilerBlock (Compiler c) = ["with-compiler: " ++ unpack c]

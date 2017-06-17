@@ -20,7 +20,7 @@ executable stack2cabal
                      , Stack2Cabal.Compiler
                      , Stack2Cabal.Constraints
                      , Stack2Cabal.Git
-                     , Stack2Cabal.StackYaml
+                     , Stack2Cabal.Packages
                      , Stack2Cabal.Util
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
