@@ -1,24 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Stack2Yaml.StackYaml
+module Stack2Cabal.StackYaml
     ( parseStackYaml
-    , Git (..)
     , gitPackages
     ) where
 
 import Data.Maybe         (mapMaybe)
-import Data.Text          (Text)
 import Data.Text.Encoding (decodeUtf8)
 import Data.Yaml.Parser   (YamlValue (..), readYamlFile)
 import System.FilePath    ((</>), (<.>))
 
+import Stack2Cabal.Git    (Git (..))
+
 parseStackYaml :: FilePath -> IO YamlValue
 parseStackYaml dir = readYamlFile $ dir </> "stack" <.> "yaml"
-
-data Git = Git 
-    { gitUrl    :: !Text
-    , gitCommit :: !Text
-    } deriving (Eq, Ord, Show)
 
 gitPackages :: YamlValue -> [Git]
 gitPackages (Mapping m _) = case lookup "packages" m of

@@ -16,11 +16,16 @@ extra-source-files:  README.md
 executable stack2cabal
   hs-source-dirs:      src
   main-is:             Main.hs
-  other-modules:       Stack2Yaml   
-                     , Stack2Yaml.StackYaml
+  other-modules:       Stack2Cabal
+                     , Stack2Cabal.Git
+                     , Stack2Cabal.StackYaml
+                     , Stack2Cabal.Util
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
+                     , attoparsec
+                     , directory
                      , filepath
+                     , process
                      , text
                      , yaml
   ghc-options:         -Wall -O2
