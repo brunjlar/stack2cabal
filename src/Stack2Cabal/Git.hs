@@ -14,7 +14,9 @@ import qualified Data.Attoparsec.Text as A
 import           Data.Text            (Text, pack, unpack)
 import           GHC.IO.Exception     (userError)
 import           System.FilePath      ((</>))
-import           System.Directory     (withCurrentDirectory, doesDirectoryExist)
+import           System.Directory     (withCurrentDirectory, 
+                                       doesDirectoryExist, 
+                                       createDirectoryIfMissing)
 import           System.Process       (callProcess)
 
 import           Stack2Cabal.Util     (withLog, putLogLn)
@@ -44,6 +46,7 @@ gitNameIO git = case gitName git of
 cloneAndCheckoutGit :: FilePath -> Git -> IO ()
 cloneAndCheckoutGit dir git@Git{..} =
     withLog ("handling git " ++ show git) $ do
+        createDirectoryIfMissing False dir
         name <- unpack <$> gitNameIO git
         let url = unpack gitUrl
             dir'   = dir </> name
