@@ -2,10 +2,11 @@ module Stack2Cabal.Compiler
     ( getCompiler
     ) where
 
+import Data.Text        (Text, pack)
 import System.Directory (withCurrentDirectory)
 import System.Process   (readProcess)
 
-getCompiler :: FilePath -> IO String
+getCompiler :: FilePath -> IO Text
 getCompiler dir =
     withCurrentDirectory dir $ do
-        (head . lines) <$> readProcess "stack" ["path", "--compiler-exe"] ""
+        (pack . head . lines) <$> readProcess "stack" ["path", "--compiler-exe"] ""

@@ -18,6 +18,7 @@ executable stack2cabal
   main-is:             Main.hs
   other-modules:       Stack2Cabal
                      , Stack2Cabal.Compiler
+                     , Stack2Cabal.Constraints
                      , Stack2Cabal.Git
                      , Stack2Cabal.StackYaml
                      , Stack2Cabal.Util
