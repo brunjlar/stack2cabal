@@ -17,6 +17,7 @@ executable stack2cabal
   hs-source-dirs:      src
   main-is:             Main.hs
   other-modules:       Stack2Cabal
+                     , Stack2Cabal.Compiler
                      , Stack2Cabal.Git
                      , Stack2Cabal.StackYaml
                      , Stack2Cabal.Util
