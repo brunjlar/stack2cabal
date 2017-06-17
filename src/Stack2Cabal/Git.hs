@@ -14,10 +14,10 @@ import qualified Data.Attoparsec.Text as A
 import           Data.Text            (Text, pack, unpack)
 import           GHC.IO.Exception     (userError)
 import           System.FilePath      ((</>))
-import           System.Directory     (withCurrentDirectory)
+import           System.Directory     (withCurrentDirectory, doesDirectoryExist)
 import           System.Process       (callProcess)
 
-import           Stack2Cabal.Util     (withLog)
+import           Stack2Cabal.Util     (withLog, putLogLn)
 
 data Git = Git 
     { gitUrl    :: !Text
@@ -46,11 +46,13 @@ cloneAndCheckoutGit dir git@Git{..} =
     withLog ("handling git " ++ show git) $ do
         name <- unpack <$> gitNameIO git
         let url = unpack gitUrl
-        withCurrentDirectory dir $ 
-            withLog ("cloning git repository '" ++ name ++ "' from '" ++ url ++ "'") $
-                callProcess "git" ["clone", url]
-        let dir'   = dir </> name
+            dir'   = dir </> name
             commit = unpack gitCommit
+        withCurrentDirectory dir $ do
+            b <- doesDirectoryExist name
+            if b then putLogLn $ "git repository '" ++ name ++ "' has already been cloned"
+                 else withLog ("cloning git repository '" ++ name ++ "' from '" ++ url ++ "'") $
+                     callProcess "git" ["clone", url]
         withCurrentDirectory dir' $
             withLog ("checking out commit '" ++ commit ++ "'") $
                 callProcess "git" ["checkout", commit]

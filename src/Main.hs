@@ -1,7 +1,7 @@
 module Main where
 
 import Control.Monad      (forM_)
-import System.Directory   (withCurrentDirectory, removePathForcibly, createDirectory)
+import System.Directory   (withCurrentDirectory, createDirectoryIfMissing)
 import System.Environment (getArgs)
 import System.FilePath    ((</>))
 
@@ -14,7 +14,6 @@ main = do
       withLog ("processing folder '" ++ dir ++ "'") $ do
           yaml <- parseStackYaml dir
           let gitDir = dir </> "git-packages"
-          removePathForcibly gitDir
-          createDirectory gitDir
+          createDirectoryIfMissing False gitDir
           forM_ (gitPackages yaml) $ \g -> do
             cloneAndCheckoutGit (dir </> "git-packages")  g
