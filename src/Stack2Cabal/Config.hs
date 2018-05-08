@@ -40,7 +40,7 @@ configP = Config <$> option auto
 configInfo :: ParserInfo Config
 configInfo = info (configP <**> helper)
     (  fullDesc
-    <> progDesc "Creates a configuration suitable for cabal new-build for the stack project in PROJECTFOLDER."
+    <> progDesc "Creates a configuration suitable for cabal new-build from the stack project in PROJECTFOLDER."
     <> header "stack2cabal - configures a stack project for cabal new-build"
     )
 
